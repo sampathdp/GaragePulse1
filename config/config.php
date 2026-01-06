@@ -46,9 +46,9 @@ if ($isLocal) {
 } else {
     // Production Server
     define('DB_HOST', 'localhost');
-    define('DB_NAME', 'cqzydpdcez_vehicle_service');
-    define('DB_USER', 'cqzydpdcez_vehicle_service');
-    define('DB_PASS', 'w&W=LX[P{3)K');
+    define('DB_NAME', 'cqzydpdcez_sumuduwheelservice');
+    define('DB_USER', 'cqzydpdcez_sumuduwheelservice');
+    define('DB_PASS', 'ksh4bafJtVrv');
     define('DB_CHARSET', 'utf8mb4');
     // Production settings
     error_reporting(0);
