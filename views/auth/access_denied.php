@@ -150,7 +150,7 @@ if (!isLoggedIn()) {
                 <i class="fas fa-lock"></i>
             </div>
 
-            <div class="error-code">403</div>
+            <div class="error-code">40adwadaw</div>
             <h1 class="error-title">Access Denied</h1>
             <p class="error-message">
                 Sorry, you don't have permission to access this page. 
