@@ -470,7 +470,8 @@ class UserPermission
                 'Branch' => 'views/Branch/',
                 'SupplierPayment' => 'views/SupplierPayment/',
                 'CustomerPayment' => 'views/CustomerPayment/',
-                'Finance' => 'views/Finance/'
+                'Finance' => 'views/Finance/',
+                'CustomerVehicle' => 'views/CustomerVehicle/'
             ];
             
             // Map for Reports subdirectories - check subdirectory first
