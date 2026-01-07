@@ -206,20 +206,27 @@ requirePagePermission('View');
 
         /* Button row for customer actions */
         .customer-actions {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        @media (min-width: 768px) {
-            .customer-actions {
-                flex-wrap: nowrap;
-            }
+            width: 100%;
         }
 
         .customer-actions .btn {
-            flex: 1 1 0;
+            min-width: 0;
             white-space: nowrap;
+            padding: 0.5rem 0.9rem;
+            height: 42px;
+        }
+
+        @media (min-width: 992px) {
+            .customer-actions {
+                flex-wrap: nowrap;
+            }
+
+            .customer-actions .btn {
+                flex: 1 1 auto;
+            }
         }
 
         @media (max-width: 991.98px) {
@@ -298,14 +305,14 @@ requirePagePermission('View');
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-5 mb-3">
+                                            <div class="col-lg-6 col-md-12 mb-3">
                                                 <label for="customer_id" class="form-label">Select Customer <span class="text-danger">*</span></label>
                                                 <select class="form-select" id="customer_id" name="customer_id" required>
                                                     <option value="">Choose a customer...</option>
                                                 </select>
                                                 <div class="invalid-feedback">Please select a customer.</div>
                                             </div>
-                                            <div class="col-md-6 mb-3">
+                                            <div class="col-lg-6 col-md-12 mb-3">
                                                 <label class="form-label">&nbsp;</label>
                                                 <div class="customer-actions">
                                                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addCustomerModal">
