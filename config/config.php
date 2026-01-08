@@ -17,7 +17,7 @@ $host = $_SERVER['HTTP_HOST'];
 // For local: http://localhost/cims/
 // For live: https://yourdomain.com/
 if (in_array($host, ['localhost', '127.0.0.1', '::1'])) {
-    define('BASE_URL', $protocol . $host . '/GaragePulse1/');
+    define('BASE_URL', $protocol . $host . '/Sumudu-Auto/');
 } else {
     // For live server - adjust if your app is in a subdirectory
     define('BASE_URL', $protocol . $host . '/');

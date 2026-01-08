@@ -34,7 +34,7 @@
 <!-- Initialize components -->
 <script>
     // Define BASE_URL for JavaScript
-    const BASE_URL = '<?php echo BASE_URL; ?>';
+    window.BASE_URL = '<?php echo BASE_URL; ?>';
     
     // Make Swal globally available
     window.Swal = Swal;
