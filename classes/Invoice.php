@@ -115,6 +115,7 @@ class Invoice
     public function create()
     {
         if (empty($this->company_id)) {
+            error_log("Invoice::create() failed - company_id is empty");
             return false;
         }
 
@@ -126,7 +127,8 @@ class Invoice
         $query = "INSERT INTO invoices (company_id, branch_id, service_id, invoice_number, customer_id, customer_name, subtotal, tax_amount, 
                   discount_amount, total_amount, payment_method, payment_date, account_id, bill_type, status) 
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $success = $this->db->prepareExecute($query, [
+        
+        $params = [
             $this->company_id,
             $this->branch_id ?? null,
             $this->service_id ?? null,
@@ -140,9 +142,20 @@ class Invoice
             $this->payment_method ?? null,
             $this->payment_date ?? null,
             !empty($this->account_id) ? (int)$this->account_id : null, 
-            $this->bill_type ?? 'cash', // Added
+            $this->bill_type ?? 'cash',
             $this->status ?? 'active'
-        ]);
+        ];
+        
+        error_log("Invoice::create() - Attempting to insert invoice with params: " . json_encode($params));
+        
+        $success = $this->db->prepareExecute($query, $params);
+
+        if (!$success) {
+            $dbError = $this->db->getLastError();
+            error_log("Invoice::create() failed - Database error: " . $dbError);
+            error_log("Invoice::create() failed - Query: " . $query);
+            return false;
+        }
 
         if ($success) {
             $this->id = $this->db->getLastInsertId();
