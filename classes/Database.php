@@ -108,17 +108,23 @@ class Database
         try {
             $stmt = $this->pdo->prepare($query);
             if (!$stmt) {
-                $error = 'Prepare failed.';
+                $errorInfo = $this->pdo->errorInfo();
+                $error = 'Prepare failed: ' . ($errorInfo[2] ?? 'Unknown error');
                 $this->lastErrorMessage = $error;
-                if ($this->isProduction) {
-                    error_log($error);
-                } else {
-                    die($error);
-                }
+                error_log("DB Prepare Error: " . $error . " | Query: " . $query);
                 return false;
             }
 
-            $stmt->execute($params);
+            $executeResult = $stmt->execute($params);
+            
+            // Check if execute failed (important for production mode with ERRMODE_SILENT)
+            if (!$executeResult) {
+                $errorInfo = $stmt->errorInfo();
+                $error = 'Execute failed: ' . ($errorInfo[2] ?? 'Unknown error');
+                $this->lastErrorMessage = $error;
+                error_log("DB Execute Error: " . $error . " | Query: " . $query . " | Params: " . json_encode($params));
+                return false;
+            }
 
             if ($returnStatement) {
                 return $stmt; // Caller can fetch rows
@@ -128,13 +134,8 @@ class Database
         } catch (PDOException $e) {
             $error = 'Query error: ' . $e->getMessage();
             $this->lastErrorMessage = $error;
-            if ($this->isProduction) {
-                error_log($error . ' | Query: ' . $query);
-            } else {
-                 // If we are seeing JSON 'Failed to create...', and logic reaches here, 
-                 // it means we are in 'production' mode or die() is not stopping execution (impossible).
-                 // So we must be in production mode logic path.
-                 // But strictly following existing logic:
+            error_log("DB Exception: " . $error . " | Query: " . $query);
+            if (!$this->isProduction) {
                 die($error . ' | Query: ' . $query);
             }
             return false;
